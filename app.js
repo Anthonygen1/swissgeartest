@@ -5,47 +5,76 @@ const url = 'https://rma.swissgear.com/api/interview-endpoint';
 axios.get(url)
     .then(data => {
         const items = data.data.data;
-        // console.log(items)
         items.forEach(item => {
-            createCard(item)
-            console.log(items)
+            createCard(item);
         })
     })
     .catch(err => console.log(err))
 
 
-function createCard(number) {
+function createCard(products) {
     // creates card with child data
     const card = document.createElement('li');
     card.className = "card";
-
+    
+    // Img
     const img = document.createElement('img');
-    img.src = number.base_image;
+    img.src = products.base_image;
     img.className = "img";
     img.id = "test";
+    img.onmouseenter = e => setImage(e, products.hover_image, "img-hover");
+    img.onmouseleave = e => setImage(e, products.base_image, "img");
 
+    //Name
+    const nameDiv = document.createElement('div');
+    nameDiv.className = "section";
+    const nameHeader = document.createElement('h2');
+    nameHeader.className = "header";
+    nameHeader.innerText = "Name";
     const name = document.createElement('a');
-    name.innerText = number.name;
-    name.className = "title";
+    name.innerText = products.name;
+    name.className = "content";
+    nameDiv.append(nameHeader, name);
 
+    // Sku
+    const skuDiv = document.createElement('div')
+    skuDiv.className = "section";
+    const skuHeader = document.createElement('h2');
+    skuHeader.className = "header";
+    skuHeader.innerText = "Sku";
+    const sku = document.createElement('h3')
+    sku.innerText = products.sku;
+    sku.className = "content"
+    skuDiv.append(skuHeader, sku);
+
+    //Price
+    const priceDiv = document.createElement('div');
+    priceDiv.className = "section";
+    const priceHeader = document.createElement('h2');
+    priceHeader.className = "header";
+    priceHeader.innerText = "Price";
     const price = document.createElement('h3');
-    price.innerText = number.price;
-    price.className = "price";
+    price.innerText = "$" + products.price;
+    price.className = "content";
+    priceDiv.append(priceHeader, price);
 
     card.append(img);
-    card.append(name);
-    card.append(price);
-    appendToTable(card)
+    card.append(nameDiv);
+    card.append(skuDiv);
+    card.append(priceDiv);
+    appendToTable(card);
     return card
 }
 
 function appendToTable (data) {
     // appends card to table
-    const table = document.getElementsByClassName('table')[0];
-    table.appendChild(data)
-
+    const table = document.getElementById('table');
+    table.appendChild(data);
     return table
 }
 
-
+function setImage (e, newSrc, className) {
+    e.target.src = newSrc;
+    e.target.className = className;
+}
 
