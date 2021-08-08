@@ -10,7 +10,6 @@ axios.get(url)
     })
     .catch(err => console.log(err))
 
-
 function createCard(products) {
     // creates card with child data
     const card = document.createElement('li');
