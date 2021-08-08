@@ -1,7 +1,6 @@
 const axios = require('axios');
 const url = 'https://rma.swissgear.com/api/interview-endpoint';
 
-
 axios.get(url)
     .then(data => {
         const items = data.data.data;
@@ -34,6 +33,7 @@ function createCard(products) {
     const name = document.createElement('a');
     name.innerText = products.name;
     name.className = "content";
+    name.id = "nameHeader"
     nameDiv.append(nameHeader, name);
 
     // Sku
@@ -77,4 +77,3 @@ function setImage (e, newSrc, className) {
     e.target.src = newSrc;
     e.target.className = className;
 }
-
